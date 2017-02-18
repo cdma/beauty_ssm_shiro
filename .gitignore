@@ -5,3 +5,4 @@
 /.settings/
 src/main/.DS_Store
 .DS_Store
+*.iml
