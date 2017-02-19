@@ -3,24 +3,20 @@ package com.yingjun.ssm.service.impl;
 import com.yingjun.ssm.aop.MethodCache;
 import com.yingjun.ssm.cache.RedisCache;
 import com.yingjun.ssm.dao.UserDao;
+import com.yingjun.ssm.dao.UserMapper;
 import com.yingjun.ssm.dto.UserDto;
-import com.yingjun.ssm.entity.Role;
 import com.yingjun.ssm.entity.User;
 import com.yingjun.ssm.enums.ResultEnum;
 import com.yingjun.ssm.exception.BizException;
 import com.yingjun.ssm.service.PasswordHelper;
 import com.yingjun.ssm.service.RoleService;
 import com.yingjun.ssm.service.UserService;
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.parsing.SourceExtractor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,6 +37,8 @@ public class UserServiceImpl implements UserService {
     private RoleService roleService;
     @Autowired
     private RedisCache cache;
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 创建用户
@@ -50,7 +48,8 @@ public class UserServiceImpl implements UserService {
     public void createUser(User user) {
         //加密密码
         passwordHelper.encryptPassword(user);
-        UserDto userDto = new UserDto();
+        userMapper.insertSelective(user);
+        /*UserDto userDto = new UserDto();
         try {
             BeanUtils.copyProperties(userDto, user);
             userDto.setRole_ids(user.getRoleIdsStr());
@@ -59,7 +58,7 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
@@ -72,7 +71,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(User user) {
         UserDto userDto = new UserDto();
-        try {
+        /*try {
             BeanUtils.copyProperties(userDto, user);
             userDto.setRole_ids(user.getRoleIdsStr());
             userDao.updateUser(userDto);
@@ -80,7 +79,7 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
@@ -126,7 +125,8 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return Collections.EMPTY_LIST;
         }
-        return roleService.findRoles(user.getRoleIds()); // 目的在于：程序健壮性（user.roleIds可不算数，需要去role中验证/获取）
+        return Collections.EMPTY_LIST;
+        //return roleService.findRoles(user.getRoleIds()); // 目的在于：程序健壮性（user.roleIds可不算数，需要去role中验证/获取）
     }
 
     @Override
@@ -136,7 +136,8 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return Collections.EMPTY_LIST;
         }
-        return roleService.findPermissions(user.getRoleIds());
+        return Collections.EMPTY_LIST;
+        //return roleService.findPermissions(user.getRoleIds());
     }
 
     @Override
