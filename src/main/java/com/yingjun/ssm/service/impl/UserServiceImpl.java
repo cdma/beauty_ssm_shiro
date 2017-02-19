@@ -6,6 +6,7 @@ import com.yingjun.ssm.dao.UserDao;
 import com.yingjun.ssm.dao.UserMapper;
 import com.yingjun.ssm.dto.UserDto;
 import com.yingjun.ssm.entity.User;
+import com.yingjun.ssm.entity.UserExample;
 import com.yingjun.ssm.enums.ResultEnum;
 import com.yingjun.ssm.exception.BizException;
 import com.yingjun.ssm.service.PasswordHelper;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -115,7 +117,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @MethodCache(clz = User.class)
     public User findByUsername(String username) {
-        return userDao.findByUsername(username);
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andUsernameEqualTo(username);
+        List<User> userList = userMapper.selectByExample(example);
+        return userList.isEmpty() ? null : userList.get(0);
+        //return userDao.findByUsername(username);
     }
 
     @Override
@@ -125,7 +132,9 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return Collections.EMPTY_LIST;
         }
-        return Collections.EMPTY_LIST;
+        List<String> roleList = new LinkedList<String>();
+        roleList.add("admin");
+        return roleList;
         //return roleService.findRoles(user.getRoleIds()); // 目的在于：程序健壮性（user.roleIds可不算数，需要去role中验证/获取）
     }
 
@@ -136,7 +145,11 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return Collections.EMPTY_LIST;
         }
-        return Collections.EMPTY_LIST;
+        List<String> permissionList = new LinkedList<String>();
+        permissionList.add("organization:*");
+        permissionList.add("user:*");
+        permissionList.add("resource:*");
+        return permissionList;
         //return roleService.findPermissions(user.getRoleIds());
     }
 
