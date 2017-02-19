@@ -2,7 +2,6 @@ package com.yingjun.ssm.service.impl;
 
 import com.yingjun.ssm.aop.MethodCache;
 import com.yingjun.ssm.cache.RedisCache;
-import com.yingjun.ssm.dao.UserDao;
 import com.yingjun.ssm.dao.UserMapper;
 import com.yingjun.ssm.dto.UserDto;
 import com.yingjun.ssm.entity.User;
@@ -10,9 +9,7 @@ import com.yingjun.ssm.entity.UserExample;
 import com.yingjun.ssm.enums.ResultEnum;
 import com.yingjun.ssm.exception.BizException;
 import com.yingjun.ssm.service.PasswordHelper;
-import com.yingjun.ssm.service.RoleService;
 import com.yingjun.ssm.service.UserService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +28,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private UserDao userDao;
+    //@Autowired
+    //private UserDao userDao;
     @Autowired
     private PasswordHelper passwordHelper;
-    @Autowired
-    private RoleService roleService;
+    //@Autowired
+    //private RoleService roleService;
     @Autowired
     private RedisCache cache;
     @Autowired
@@ -70,7 +67,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
+   @Override
     public void updateUser(User user) {
         UserDto userDto = new UserDto();
         /*try {
@@ -84,10 +81,10 @@ public class UserServiceImpl implements UserService {
         }*/
     }
 
-    @Override
+    /*@Override
     public void deleteUser(Long userId) {
         userDao.deleteUser(userId);
-    }
+    }*/
 
     /**
      * 修改密码
@@ -96,7 +93,8 @@ public class UserServiceImpl implements UserService {
      * @param newPassword
      */
     public void changePassword(Long userId, String newPassword) {
-        User user = userDao.findOne(userId);
+        //User user = userDao.findOne(userId);
+        User user = userMapper.selectByPrimaryKey(userId);
         user.setPassword(newPassword);
         passwordHelper.encryptPassword(user);
         updateUser(user);
@@ -105,13 +103,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @MethodCache(clz = User.class)
     public User findOne(Long userId) {
-        return userDao.findOne(userId);
+        return userMapper.selectByPrimaryKey(userId);
     }
 
     @Override
     @MethodCache(isCollection = 1, clz = User.class, expire = 300) // 触发缓存aop，返回结果是集合，集合内对象类型是User，缓存过期时间5分钟
     public List<User> findAll() {
-        return userDao.findAll();
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        return userMapper.selectByExample(userExample);
     }
 
     @Override
@@ -155,17 +155,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @MethodCache(isCollection = 1, clz = User.class)
-    public List<User> findUsers(String idOrUsername){
+    public List<User> findUsers(){
         // 参数处理 （idOrUsername）
         User user = new User();
-        if (StringUtils.isNumeric(idOrUsername)) {
+       /* if (StringUtils.isNumeric(idOrUsername)) {
             user.setId(Long.parseLong(idOrUsername));
         } else {
             user.setUsername(idOrUsername);
-        }
+        }*/
 
         // 业务处理
-        List<User> users = userDao.findUsers(user);
+        List<User> users = findAll();
         if (users == null || users.size() == 0) {
             throw new BizException(ResultEnum.DB_SELECTONE_IS_NULL.getMsg());
         }

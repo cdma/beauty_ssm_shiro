@@ -1,14 +1,8 @@
 package com.yingjun.ssm.utils;
 
-import com.yingjun.ssm.dao.UserDao;
-import com.yingjun.ssm.entity.User;
 import com.yingjun.ssm.service.UserService;
 import com.yingjun.ssm.service.impl.UserServiceImpl;
-import com.yingjun.ssm.web.IndexController;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.List;
 
 /**
  * Created by kongyunhui on 2016/11/29.

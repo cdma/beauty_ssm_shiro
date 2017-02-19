@@ -1,10 +1,8 @@
 package com.yingjun.ssm.service;
 
-import com.yingjun.ssm.dto.UserDto;
 import com.yingjun.ssm.entity.User;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * <p>User: Zhang Kaitao
@@ -27,7 +25,7 @@ public interface UserService {
 
     public void updateUser(User user);
 
-    public void deleteUser(Long userId);
+    //public void deleteUser(Long userId);
 
     /**
      * 修改密码
@@ -67,6 +65,6 @@ public interface UserService {
      * @param idOrUsername
      * @return
      */
-    public List<User> findUsers(String idOrUsername);
+    public List<User> findUsers();
 
 }

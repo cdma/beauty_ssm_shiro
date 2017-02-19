@@ -41,8 +41,21 @@
         </javaClientGenerator>
 
         <!--对应数据库表名 -->
-        <table tableName="_user">
+        <table tableName="user">
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
+        <table tableName="role">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="permission">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="user_role">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+        <table tableName="role_permission">
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+
     </context>
 </generatorConfiguration>

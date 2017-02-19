@@ -335,7 +335,7 @@
 				</configuration>
 			</plugin>
             <!-- Mybatis generator代码生成插件 配置 -->
-            <!-- mybatis-generator:generate -Dmybatis.generator.overwrite=true -->
+            <!-- mvn mybatis-generator:generate -Dmybatis.generator.overwrite=true -->
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>

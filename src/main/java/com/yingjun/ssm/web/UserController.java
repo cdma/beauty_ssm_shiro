@@ -1,20 +1,19 @@
 package com.yingjun.ssm.web;
 
-import com.yingjun.ssm.aop.MethodCache;
 import com.yingjun.ssm.dto.BaseResult;
-import com.yingjun.ssm.dto.UserDto;
 import com.yingjun.ssm.entity.User;
 import com.yingjun.ssm.enums.ResultEnum;
 import com.yingjun.ssm.exception.BizException;
-import com.yingjun.ssm.service.RoleService;
 import com.yingjun.ssm.service.UserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -31,8 +30,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private RoleService roleService;
+   // @Autowired
+   // private RoleService roleService;
 
     /**
      * @RequiresPermissions("user:view")：调用UserRealm的doGetAuthorizationInfo()获得用户权限，并判断
@@ -47,7 +46,7 @@ public class UserController {
     @RequiresPermissions("user:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String showCreateForm(Model model) {
-        setCommonData(model);
+  //      setCommonData(model);
         model.addAttribute("user", new User());
         model.addAttribute("op", "新增");
         return "user/edit";
@@ -71,7 +70,7 @@ public class UserController {
     @RequiresPermissions("user:update")
     @RequestMapping(value = "/{id}/update", method = RequestMethod.GET)
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
-        setCommonData(model);
+   //     setCommonData(model);
         model.addAttribute("user", userService.findOne(id));
         model.addAttribute("op", "修改");
         return "user/edit";
@@ -85,13 +84,13 @@ public class UserController {
         return "redirect:/user";
     }
 
-    @RequiresPermissions("user:delete")
+    /*@RequiresPermissions("user:delete")
     @RequestMapping(value = "/{id}/delete")
     public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         userService.deleteUser(id);
         redirectAttributes.addFlashAttribute("msg", "删除成功");
         return "redirect:/user";
-    }
+    }*/
 
 
     @RequiresPermissions("user:update")
@@ -110,9 +109,9 @@ public class UserController {
         return "redirect:/user";
     }
 
-    private void setCommonData(Model model) {
+   /* private void setCommonData(Model model) {
         model.addAttribute("roleList", roleService.findAll());
-    }
+    }*/
 
     /**
      * 优雅的异常分类：业务异常（捕获的XXService层抛出的业务异常）、非业务异常（系统异常）
@@ -120,10 +119,10 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping("/findUsers")
-    public BaseResult<List<User>> findUsers(String idOrUsername){
+    public BaseResult<List<User>> findUsers(){
         BaseResult<List<User>> resp = null;
         try {
-            List<User> list = userService.findUsers(idOrUsername);
+            List<User> list = userService.findUsers();
             resp = new BaseResult<List<User>>(true, list);
         } catch(BizException e){
             resp = new BaseResult(false, e.getMessage());
