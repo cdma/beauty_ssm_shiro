@@ -52,7 +52,7 @@ public class IndexController {
         return "welcome";
     }
 
-    static  class Menu {
+    public static  class Menu {
         private String url;
         private String name;
 
