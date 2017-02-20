@@ -1,15 +1,17 @@
 package com.yingjun.ssm.web;
 
-import org.apache.shiro.SecurityUtils;
+import com.yingjun.ssm.entity.User;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * <p>User: Zhang Kaitao
@@ -34,6 +36,14 @@ public class LoginController {
         model.addAttribute("error", error);
         return "login";
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/test/date", method = {RequestMethod.POST, RequestMethod.GET})
+    public Object test_date(@Valid User user, BindingResult result) {
+        System.out.println("user:"+user.getCreateTime());
+        return user;
+    }
+
 
 //    private void ensureUserIsLoggedOut() {
 //        try {

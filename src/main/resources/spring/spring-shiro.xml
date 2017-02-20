@@ -124,6 +124,7 @@
             <value>
                 /static/** = anon           <!-- 静态资源不拦截 -->
                 /welcome = anon             <!-- 匿名拦截器，定义不拦截的url -->
+                /test/** = anon
                 /login = authc              <!-- 直接访问/login，如果之前是'记住我'登录的不算，需要重新登录 -->
                 /register = anon
                 /logout = logout            <!-- 注销拦截器 -->

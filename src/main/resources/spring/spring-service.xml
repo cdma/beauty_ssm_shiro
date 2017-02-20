@@ -29,6 +29,8 @@
     <!--不清楚为什么，没卵用-->
     <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
 
+
+
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <!--<tx:method name="*" propagation="REQUIRED"/>-->
