@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,13 +31,47 @@ public class IndexController {
         String username = (String)SecurityUtils.getSubject().getPrincipal();
         List<String> permissions = userService.findPermissions(username); // username -> user.roleIds -> role.resourceIds -> resource.permission
         //List<Resource> menus = resourceService.findMenus(permissions); // resource.permission -> resource.name (type=menu and parentId!=0)
-        //model.addAttribute("menus", menus);
+
+        List<Menu> menuList = new ArrayList<Menu>();
+        Menu m1 = new Menu();
+        m1.setName("组织机构管理");
+        m1.setUrl("/organization");
+        menuList.add(m1);
+
+        Menu m2 = new Menu();
+        m2.setName("用户管理");
+        m2.setUrl("/user");
+        menuList.add(m2);
+        model.addAttribute("menus", menuList);
+
         return "index";
     }
 
     @RequestMapping("/welcome")
     public String welcome() {
         return "welcome";
+    }
+
+    static  class Menu {
+        private String url;
+        private String name;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setUrl(String url) {
+
+            this.url = url;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 
 }
