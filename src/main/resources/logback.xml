@@ -300,6 +300,7 @@
         <level value="INFO"/>
         <appender-ref ref="RocketmqCommercialAppender"/>
     </logger-->
+    <logger name="com.yingjun.ssm.dao" level="DEBUG"/>
 
     <root>
         <level value="INFO"/>
