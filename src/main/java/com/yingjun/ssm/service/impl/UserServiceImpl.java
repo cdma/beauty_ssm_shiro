@@ -1,7 +1,6 @@
 package com.yingjun.ssm.service.impl;
 
 import com.github.pagehelper.PageHelper;
-
 import com.yingjun.ssm.cache.RedisCache;
 import com.yingjun.ssm.dao.UserMapper;
 import com.yingjun.ssm.dto.UserDto;
@@ -121,9 +120,10 @@ public class UserServiceImpl implements UserService {
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andUsernameEqualTo(username);
-        int page = 1;
-        int rows = 2;
-        PageHelper.startPage(page, rows);
+        int offset = 0;
+        int limit = 4;
+        //PageHelper.startPage(page, rows);
+        PageHelper.offsetPage(offset,limit);
         List<User> userList = userMapper.selectByExample(example);
         return userList.isEmpty() ? null : userList.get(0);
         //return userDao.findByUsername(username);
