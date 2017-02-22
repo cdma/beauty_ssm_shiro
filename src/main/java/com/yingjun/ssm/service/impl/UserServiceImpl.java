@@ -1,6 +1,5 @@
 package com.yingjun.ssm.service.impl;
 
-import com.yingjun.ssm.aop.MethodCache;
 import com.yingjun.ssm.cache.RedisCache;
 import com.yingjun.ssm.dao.UserMapper;
 import com.yingjun.ssm.dto.UserDto;
@@ -101,13 +100,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @MethodCache(clz = User.class)
+    //@MethodCache(clz = User.class)
     public User findOne(Long userId) {
         return userMapper.selectByPrimaryKey(userId);
     }
 
     @Override
-    @MethodCache(isCollection = 1, clz = User.class, expire = 300) // 触发缓存aop，返回结果是集合，集合内对象类型是User，缓存过期时间5分钟
+    //@MethodCache(isCollection = 1, clz = User.class, expire = 300) // 触发缓存aop，返回结果是集合，集合内对象类型是User，缓存过期时间5分钟
     public List<User> findAll() {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
@@ -115,7 +114,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @MethodCache(clz = User.class)
+    //@MethodCache(clz = User.class)
     public User findByUsername(String username) {
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
@@ -126,7 +125,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @MethodCache(isCollection = 1, clz = String.class)
+    //@MethodCache(isCollection = 1, clz = String.class)
     public List<String> findRoles(String username) {
         User user = findByUsername(username);
         if (user == null) {
@@ -139,7 +138,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @MethodCache(isCollection = 1, clz = String.class)
+    //@MethodCache(isCollection = 1, clz = String.class)
     public List<String> findPermissions(String username) {
         User user = findByUsername(username);
         if (user == null) {
@@ -154,7 +153,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @MethodCache(isCollection = 1, clz = User.class)
+    //@MethodCache(isCollection = 1, clz = User.class)
     public List<User> findUsers(){
         // 参数处理 （idOrUsername）
         User user = new User();
