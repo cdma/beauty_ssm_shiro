@@ -1,8 +1,10 @@
 package com.yingjun.ssm.web;
 
 import com.yingjun.ssm.entity.User;
+import com.yingjun.ssm.service.UserService;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +22,9 @@ import javax.validation.Valid;
  */
 @Controller
 public class LoginController {
+
+	@Autowired
+	private UserService userService;
 
     @RequestMapping(value = "/login")
     public String showLoginForm(HttpServletRequest req, Model model) {
@@ -41,6 +46,7 @@ public class LoginController {
     @RequestMapping(value = "/test/date", method = {RequestMethod.POST, RequestMethod.GET})
     public Object test_date(@Valid User user, BindingResult result) {
         System.out.println("user:"+user.getCreateTime());
+	    userService.findAll();
         return user;
     }
 

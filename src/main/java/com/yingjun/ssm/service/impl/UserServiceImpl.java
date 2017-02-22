@@ -111,6 +111,7 @@ public class UserServiceImpl implements UserService {
     public List<User> findAll() {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
+	    PageHelper.offsetPage(1,3);
         return userMapper.selectByExample(userExample);
     }
 
@@ -120,10 +121,6 @@ public class UserServiceImpl implements UserService {
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andUsernameEqualTo(username);
-        int offset = 0;
-        int limit = 4;
-        //PageHelper.startPage(page, rows);
-        PageHelper.offsetPage(offset,limit);
         List<User> userList = userMapper.selectByExample(example);
         return userList.isEmpty() ? null : userList.get(0);
         //return userDao.findByUsername(username);
