@@ -36,6 +36,7 @@ public class LoggingFilter extends OncePerRequestFilter {
     protected static final Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
     private static final String REQUEST_PREFIX = "Request: ";
     private static final String RESPONSE_PREFIX = "Response: ";
+    private  static String RESPONSE_HTML_TYPE = "text/html";
     private AtomicLong id = new AtomicLong(1);
 
     @Override
@@ -107,8 +108,14 @@ public class LoggingFilter extends OncePerRequestFilter {
         StringBuilder msg = new StringBuilder();
         msg.append(RESPONSE_PREFIX);
         msg.append("request id=").append((response.getId()));
+        //logger.info("getContentType:" + response.getContentType());
         try {
-            msg.append("; payload=").append(new String(response.toByteArray(), response.getCharacterEncoding()));
+            String contentType = response.getContentType();
+            if (contentType != null && contentType.startsWith(RESPONSE_HTML_TYPE)) {
+                msg.append("; contentType=").append(contentType);
+            } else {
+                msg.append("; payload=").append(new String(response.toByteArray(), response.getCharacterEncoding()));
+            }
         } catch (UnsupportedEncodingException e) {
             logger.warn("Failed to parse response payload", e);
         }
