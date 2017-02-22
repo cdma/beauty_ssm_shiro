@@ -60,9 +60,13 @@
         <package name="com.yingjun.ssm.entity"/>
     </typeAliases>
 
-    <!--plugins>
-        <plugin interceptor="com.yingjun.ssm.orm.mybatis.PaginationResultSetHandlerInterceptor"/>
-        <plugin interceptor="com.yingjun.ssm.orm.mybatis.PaginationStatementHandlerInterceptor"/>
-    </plugins-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <property name="helperDialect" value="mysql"/>
+            <property name="reasonable" value="false"/>
+            <property name="supportMethodsArguments" value="false"/>
+            <property name="autoRuntimeDialect" value="false"/>
+        </plugin>
+    </plugins>
 
 </configuration>
