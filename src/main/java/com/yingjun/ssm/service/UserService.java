@@ -15,7 +15,7 @@ public interface UserService {
      * 创建用户
      * @param user
      */
-    public void createUser(User user);
+    public int createUser(User user);
 
     /**
      * 批量添加用户

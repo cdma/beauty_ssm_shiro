@@ -27,7 +27,7 @@
         <!--生成的model 包路径 -->
         <javaModelGenerator targetPackage="${model.package}" targetProject="${target.project}">
             <property name="enableSubPackages" value="ture"/>
-            <property name="trimStrings" value="true"/>
+            <property name="trimStrings" value="false"/>
         </javaModelGenerator>
 
         <!--生成xml mapper文件 路径 -->

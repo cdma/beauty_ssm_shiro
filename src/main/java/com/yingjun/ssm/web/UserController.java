@@ -1,10 +1,12 @@
 package com.yingjun.ssm.web;
 
 import com.yingjun.ssm.dto.BaseResult;
+import com.yingjun.ssm.dto.UserDto;
 import com.yingjun.ssm.entity.User;
 import com.yingjun.ssm.enums.ResultEnum;
 import com.yingjun.ssm.exception.BizException;
 import com.yingjun.ssm.service.UserService;
+import com.yingjun.ssm.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,28 +45,26 @@ public class UserController {
         return "user/list";
     }
 
-    @RequiresPermissions("user:create")
+  /*  @RequiresPermissions("user:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String showCreateForm(Model model) {
   //      setCommonData(model);
         model.addAttribute("user", new User());
         model.addAttribute("op", "新增");
         return "user/edit";
-    }
+    }*/
 
     /**
      * 添加用户
-     * @param user @valid验证（hibernate-validator）
-     * @param result 验证结果，使用aop统一处理
-     * @param redirectAttributes
-     * @return
      */
-    @RequiresPermissions("user:create")
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@Valid User user, BindingResult result, RedirectAttributes redirectAttributes) {
-        userService.createUser(user);
-        redirectAttributes.addFlashAttribute("msg", "新增成功");
-        return "redirect:/user";
+    //@RequiresPermissions("user:create")
+    @ResponseBody
+    @RequestMapping(value = "/create", method = {RequestMethod.POST, RequestMethod.GET})
+    public BaseResult<Integer> create(@Valid UserDto userDto, BindingResult result) {
+        int count = userService.createUser(UserUtils.UserDto2User(userDto));
+	    BaseResult<Integer> resp = null;
+	    resp = new BaseResult<Integer>(true, new Integer(count));
+	    return resp;
     }
 
     @RequiresPermissions("user:update")
@@ -109,14 +109,6 @@ public class UserController {
         return "redirect:/user";
     }
 
-   /* private void setCommonData(Model model) {
-        model.addAttribute("roleList", roleService.findAll());
-    }*/
-
-    /**
-     * 优雅的异常分类：业务异常（捕获的XXService层抛出的业务异常）、非业务异常（系统异常）
-     * @return json数据
-     */
     @ResponseBody
     @RequestMapping("/findUsers")
     public BaseResult<List<User>> findUsers(){

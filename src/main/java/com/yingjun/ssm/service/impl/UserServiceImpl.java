@@ -14,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -25,6 +27,7 @@ import java.util.List;
  * <p>Version: 1.0
  */
 @Service("userService")
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class UserServiceImpl implements UserService {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
@@ -44,10 +47,11 @@ public class UserServiceImpl implements UserService {
      *
      * @param user
      */
-    public void createUser(User user) {
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public int createUser(User user) {
         //加密密码
         passwordHelper.encryptPassword(user);
-        userMapper.insertSelective(user);
+        return userMapper.insertSelective(user);
         /*UserDto userDto = new UserDto();
         try {
             BeanUtils.copyProperties(userDto, user);

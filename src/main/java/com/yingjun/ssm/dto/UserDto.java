@@ -1,78 +1,77 @@
 package com.yingjun.ssm.dto;
 
-import com.yingjun.ssm.entity.User;
+import org.hibernate.validator.constraints.NotBlank;
 
-import java.io.Serializable;
-import java.util.List;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
+import java.util.Date;
 
-/**
- * Created by kongyunhui on 2016/11/24.
- */
-public class UserDto implements Serializable {
-    private Long id;
-    private String username;
-    private String password;
-    private String salt;
-    private String role_ids;
-    private Boolean locked;
+public class UserDto {
+	@Null
+	private Long id;
 
-    public Long getId() {
-        return id;
-    }
+	@NotBlank
+	@Size(max=10, min=3)
+	private String username;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@NotBlank
+	@Size(max=10, min=3)
+	private String password;
 
-    public String getUsername() {
-        return username;
-    }
+	@Null
+	private String state;
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	@Null
+	private Date createTime;
 
-    public String getPassword() {
-        return password;
-    }
+	private String salt;
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public String getSalt() {
-        return salt;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public String getRole_ids() {
-        return role_ids;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setRole_ids(String role_ids) {
-        this.role_ids = role_ids;
-    }
+	public String getState() {
+		return state;
+	}
 
-    public Boolean getLocked() {
-        return locked;
-    }
+	public void setState(String state) {
+		this.state = state;
+	}
 
-    public void setLocked(Boolean locked) {
-        this.locked = locked;
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    @Override
-    public String toString() {
-        return "UserDto{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
-                ", role_ids='" + role_ids + '\'' +
-                ", locked=" + locked +
-                '}';
-    }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public Long getId() {
+
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

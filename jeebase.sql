@@ -1,26 +1,27 @@
-/*
-SQLyog 企业版 - MySQL GUI v8.14 
-MySQL - 5.5.27 : Database - jeebase
-*********************************************************************
-*/
+-- MySQL dump 10.13  Distrib 5.7.9, for osx10.9 (x86_64)
+--
+-- Host: localhost    Database: jeebase
+-- ------------------------------------------------------
+-- Server version	5.7.9
 
-
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`jeebase` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-USE `jeebase`;
-
-/*Table structure for table `permission` */
+--
+-- Table structure for table `permission`
+--
 
 DROP TABLE IF EXISTS `permission`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `permission` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '权限id',
   `permission_name` varchar(32) DEFAULT NULL COMMENT '权限名',
@@ -28,15 +29,25 @@ CREATE TABLE `permission` (
   `description` varchar(256) DEFAULT NULL COMMENT '权限描述,UI界面显示使用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='权限表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `permission` */
+--
+-- Dumping data for table `permission`
+--
 
-insert  into `permission`(`id`,`permission_name`,`permission_sign`,`description`) values (1,'用户新增','user:create',NULL);
+LOCK TABLES `permission` WRITE;
+/*!40000 ALTER TABLE `permission` DISABLE KEYS */;
+INSERT INTO `permission` VALUES (1,'用户新增','user:create',NULL);
+/*!40000 ALTER TABLE `permission` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `role` */
+--
+-- Table structure for table `role`
+--
 
 DROP TABLE IF EXISTS `role`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `role` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '角色id',
   `role_name` varchar(32) DEFAULT NULL COMMENT '角色名',
@@ -44,59 +55,103 @@ CREATE TABLE `role` (
   `description` varchar(256) DEFAULT NULL COMMENT '角色描述,UI界面显示使用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='角色表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `role` */
+--
+-- Dumping data for table `role`
+--
 
-insert  into `role`(`id`,`role_name`,`role_sign`,`description`) values (1,'admin','admin','管理员');
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (1,'admin','admin','管理员');
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `role_permission` */
+--
+-- Table structure for table `role_permission`
+--
 
 DROP TABLE IF EXISTS `role_permission`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `role_permission` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '表id',
   `role_id` bigint(20) unsigned DEFAULT NULL COMMENT '角色id',
   `permission_id` bigint(20) unsigned DEFAULT NULL COMMENT '权限id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='角色与权限关联表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `role_permission` */
+--
+-- Dumping data for table `role_permission`
+--
 
-insert  into `role_permission`(`id`,`role_id`,`permission_id`) values (1,2,1);
+LOCK TABLES `role_permission` WRITE;
+/*!40000 ALTER TABLE `role_permission` DISABLE KEYS */;
+INSERT INTO `role_permission` VALUES (1,2,1);
+/*!40000 ALTER TABLE `role_permission` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `user` */
+--
+-- Table structure for table `user`
+--
 
 DROP TABLE IF EXISTS `user`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户id',
   `username` varchar(50) DEFAULT NULL COMMENT '用户名',
   `password` char(64) DEFAULT NULL COMMENT '密码',
   `state` varchar(32) DEFAULT NULL COMMENT '状态',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `salt` char(64) DEFAULT NULL COMMENT 'salt',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=1009 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='用户表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `user` */
+--
+-- Dumping data for table `user`
+--
 
-insert  into `user`(`id`,`username`,`password`,`state`,`create_time`) values (1,'starzou','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92',NULL,'2014-07-17 12:59:08');
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'admin','9a8a7bf3b17d8999d2fd6d990d14d3e5','83b271fc4ef99a40aa90ddc38cc0c3ef','2014-07-17 12:59:08','0'),(2,'a','3a8a2757f29b8013f21be5da1ac5a897','93d87bd924694fb5604852d9c987f1a5','2014-07-17 12:59:08','93d87bd924694fb5604852d9c987f1a5'),(1000,'starzou','8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92',NULL,'2014-07-17 12:59:08',NULL);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
 
-/*Table structure for table `user_role` */
+--
+-- Table structure for table `user_role`
+--
 
 DROP TABLE IF EXISTS `user_role`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_role` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '表id',
   `user_id` bigint(20) unsigned DEFAULT NULL COMMENT '用户id',
   `role_id` bigint(20) unsigned DEFAULT NULL COMMENT '角色id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='用户与角色关联表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-/*Data for the table `user_role` */
+--
+-- Dumping data for table `user_role`
+--
 
-insert  into `user_role`(`id`,`user_id`,`role_id`) values (1,1,1);
+LOCK TABLES `user_role` WRITE;
+/*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
+INSERT INTO `user_role` VALUES (1,1,1);
+/*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-02-22 23:45:32

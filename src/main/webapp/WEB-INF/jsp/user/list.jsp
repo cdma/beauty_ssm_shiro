@@ -9,9 +9,7 @@
     <c:if test="${msg != null}">
         <p style="color: red;">${msg}</p>
     </c:if>
-    <shiro:hasPermission name="user:create">
         <a href="<%=path%>/user/create">添加用户</a>
-    </shiro:hasPermission>
     搜索：<input type="text" name="idOrUsername" id="idOrUsername" onkeydown="findUsers();"/>
     <table border="1">
         <tr>
@@ -22,17 +20,11 @@
         <c:forEach items="${userList}" var="u">
             <tr>
                 <td>${u.username}</td>
-                <td>${zhangfn:roleNames(u.roleIds)}</td>
+                <td></td>
                 <td>
-                    <shiro:hasPermission name="user:update">
                         <a href="<%=path %>/user/${u.id}/update">修改</a>
-                    </shiro:hasPermission>
-                    <shiro:hasPermission name="user:delete">
                         <a href="<%=path %>/user/${u.id}/delete">删除</a>
-                    </shiro:hasPermission>
-                    <shiro:hasPermission name="user:update">
                         <a href="<%=path %>/user/${u.id}/changePassword">修改密码</a>
-                    </shiro:hasPermission>
                 </td>
             </tr>
         </c:forEach>

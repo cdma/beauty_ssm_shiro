@@ -3,13 +3,11 @@ package com.yingjun.ssm.aop;
 import com.yingjun.ssm.cache.RedisCache;
 import com.yingjun.ssm.utils.Helper;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,8 +15,8 @@ import java.util.regex.Pattern;
 /**
  * 采用AOP的方式处理: XXService关于数据更新（增删改）时，缓存的清理。
  */
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class ClearCacheAop {
     private static final Logger LOG = LoggerFactory.getLogger(ClearCacheAop.class);
 
