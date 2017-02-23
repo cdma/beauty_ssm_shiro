@@ -10,6 +10,7 @@ import com.yingjun.ssm.enums.ResultEnum;
 import com.yingjun.ssm.exception.BizException;
 import com.yingjun.ssm.service.PasswordHelper;
 import com.yingjun.ssm.service.UserService;
+import com.yingjun.ssm.utils.DebugUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import java.util.List;
  * <p>Date: 14-1-28
  * <p>Version: 1.0
  */
-@Service("userService")
+@Service
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class UserServiceImpl implements UserService {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
@@ -49,6 +50,7 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public int createUser(User user) {
+	    DebugUtils.transactionRequired("UserServiceImpl.createUser");
         //加密密码
         passwordHelper.encryptPassword(user);
         return userMapper.insertSelective(user);

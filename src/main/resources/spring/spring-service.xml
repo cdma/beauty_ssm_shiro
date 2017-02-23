@@ -14,21 +14,19 @@
 		http://www.springframework.org/schema/tx
 		http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+
+
+    <!--配置基于注解的声明式事务,默认使用注解来管理事务行为-->
+    <!--不清楚为什么，没卵用-->
+    <context:annotation-config/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
     <context:component-scan base-package="com.yingjun.ssm">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
-    <!--配置事务管理器(mybatis采用的是JDBC的事务管理器)-->
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <!--配置基于注解的声明式事务,默认使用注解来管理事务行为-->
-    <!--不清楚为什么，没卵用-->
-    <context:annotation-config />
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-
     <!--tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/-->
+    <!--1、配置数据库相关参数-->
 
 
 
@@ -36,7 +34,7 @@
         <tx:attributes>
             <tx:method name="save*" propagation="REQUIRED" />
             <tx:method name="add*" propagation="REQUIRED" />
-            <tx:method name="create*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="create*" propagation="REQUIRED" />
             <tx:method name="insert*" propagation="REQUIRED" />
             <tx:method name="update*" propagation="REQUIRED" />
             <tx:method name="merge*" propagation="REQUIRED" />
@@ -56,6 +54,4 @@
         <aop:advisor id="txAdvisor" advice-ref="txAdvice" pointcut-ref="txPointcut"/>
     </aop:config>
 
-    <!-- 一些业务层需要调用但未扫描的bean -->
-    <!--bean class="com.yingjun.ssm.spring.SpringUtils"/-->
 </beans>
