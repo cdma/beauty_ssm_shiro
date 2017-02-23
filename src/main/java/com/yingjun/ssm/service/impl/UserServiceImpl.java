@@ -30,10 +30,15 @@ import java.util.List;
 @Service
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class UserServiceImpl implements UserService {
-    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    //@Autowired
-    //private UserDao userDao;
+
+	public UserServiceImpl() {
+		logger.info("UserServiceImpl");
+		new RuntimeException().printStackTrace();
+	}
+
+	//private UserDao userDao;
     @Autowired
     private PasswordHelper passwordHelper;
     //@Autowired
@@ -48,7 +53,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param user
      */
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public int createUser(User user) {
 	    DebugUtils.transactionRequired("UserServiceImpl.createUser");
         //加密密码
