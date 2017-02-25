@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingjun.ssm.dao.UserMapperExt">
+    <!-- one to many -->
+    <resultMap id="BaseResultMap" type="com.yingjun.ssm.entity.UserRoleDetail"
+               extends="com.yingjun.ssm.dao.UserMapper.BaseResultMap">
+        <collection property="roleList"  resultMap="com.yingjun.ssm.dao.RoleMapper.BaseResultMap"/>
+    </resultMap>
+
+    <select id="getUserRoleDetail" parameterType="java.lang.Long" resultMap="BaseResultMap" resultOrdered="true">
+        select user.*,role.* from user RIGHT join user_role on user.id=user_role.user_id
+        left join role on user_role.role_id=role.role_id
+
+    </select>
+
+    <!-- many to many -->
+    <resultMap id="BaseResultMap2" type="com.yingjun.ssm.entity.UserRoleDetail2">
+        <association property="user"  resultMap="com.yingjun.ssm.dao.UserMapper.BaseResultMap"/>
+        <association property="role"  resultMap="com.yingjun.ssm.dao.RoleMapper.BaseResultMap"/>
+    </resultMap>
+
+    <select id="getUserRoleDetail2" parameterType="java.lang.Long" resultMap="BaseResultMap2">
+        select user.*,role.* from user left join user_role on user.id=user_role.user_id
+        right join role on user_role.role_id=role.role_id
+    </select>
+
+
+</mapper>

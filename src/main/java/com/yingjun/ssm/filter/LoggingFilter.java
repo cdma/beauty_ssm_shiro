@@ -36,7 +36,7 @@ public class LoggingFilter extends OncePerRequestFilter {
     protected static final Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
     private static final String REQUEST_PREFIX = "Request: ";
     private static final String RESPONSE_PREFIX = "Response: ";
-    private  static String RESPONSE_HTML_TYPE = "text/html";
+    private  static String RESPONSE_LOG_TYPE = "application/json";
     private AtomicLong id = new AtomicLong(1);
 
     @Override
@@ -47,11 +47,14 @@ public class LoggingFilter extends OncePerRequestFilter {
             response = new ResponseWrapper(requestId, response);
         }
         try {
+	        if (logger.isDebugEnabled()) {
+		        logRequest(request);
+	        }
             filterChain.doFilter(request, response);
 //            response.flushBuffer();
         } finally {
             if (logger.isDebugEnabled()) {
-                logRequest(request);
+                //logRequest(request);
                 logResponse((ResponseWrapper) response);
             }
         }
@@ -111,9 +114,8 @@ public class LoggingFilter extends OncePerRequestFilter {
         //logger.info("getContentType:" + response.getContentType());
         try {
             String contentType = response.getContentType();
-            if (contentType != null && contentType.startsWith(RESPONSE_HTML_TYPE)) {
-                msg.append("; contentType=").append(contentType);
-            } else {
+	        msg.append("; contentType=").append(contentType);
+            if (contentType != null && contentType.startsWith(RESPONSE_LOG_TYPE)) {
                 msg.append("; payload=").append(new String(response.toByteArray(), response.getCharacterEncoding()));
             }
         } catch (UnsupportedEncodingException e) {

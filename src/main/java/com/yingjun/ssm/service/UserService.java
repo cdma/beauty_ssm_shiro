@@ -1,6 +1,8 @@
 package com.yingjun.ssm.service;
 
 import com.yingjun.ssm.entity.User;
+import com.yingjun.ssm.entity.UserRoleDetail;
+import com.yingjun.ssm.entity.UserRoleDetail2;
 
 import java.util.List;
 
@@ -24,6 +26,9 @@ public interface UserService {
     public void createUsers(List<User> list);
 
     public void updateUser(User user);
+
+	public List<UserRoleDetail> getUserRoleDetail(Long userId);
+	public List<UserRoleDetail2> getUserRoleDetail2(Long userId);
 
     //public void deleteUser(Long userId);
 

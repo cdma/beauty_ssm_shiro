@@ -78,7 +78,7 @@ public class Permission {
      * @mbggenerated
      */
     public void setPermissionName(String permissionName) {
-        this.permissionName = permissionName == null ? null : permissionName.trim();
+        this.permissionName = permissionName;
     }
 
     /**
@@ -102,7 +102,7 @@ public class Permission {
      * @mbggenerated
      */
     public void setPermissionSign(String permissionSign) {
-        this.permissionSign = permissionSign == null ? null : permissionSign.trim();
+        this.permissionSign = permissionSign;
     }
 
     /**
@@ -126,6 +126,6 @@ public class Permission {
      * @mbggenerated
      */
     public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+        this.description = description;
     }
 }

@@ -3,9 +3,12 @@ package com.yingjun.ssm.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.yingjun.ssm.cache.RedisCache;
 import com.yingjun.ssm.dao.UserMapper;
+import com.yingjun.ssm.dao.UserMapperExt;
 import com.yingjun.ssm.dto.UserDto;
 import com.yingjun.ssm.entity.User;
 import com.yingjun.ssm.entity.UserExample;
+import com.yingjun.ssm.entity.UserRoleDetail;
+import com.yingjun.ssm.entity.UserRoleDetail2;
 import com.yingjun.ssm.enums.ResultEnum;
 import com.yingjun.ssm.exception.BizException;
 import com.yingjun.ssm.service.PasswordHelper;
@@ -30,12 +33,12 @@ import java.util.List;
 @Service
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class UserServiceImpl implements UserService {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 
 	public UserServiceImpl() {
-		logger.info("UserServiceImpl");
-		new RuntimeException().printStackTrace();
+		//logger.info("UserServiceImpl");
+		//new RuntimeException().printStackTrace();
 	}
 
 	//private UserDao userDao;
@@ -48,17 +51,36 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    /**
+	@Autowired
+	private UserMapperExt userMapperExt;
+
+	@Override
+	public List<UserRoleDetail> getUserRoleDetail(Long userId) {
+		List<UserRoleDetail> userRoleDetailList = userMapperExt.getUserRoleDetail(userId);
+		return userRoleDetailList;
+	}
+
+	@Override
+	public List<UserRoleDetail2> getUserRoleDetail2(Long userId) {
+		List<UserRoleDetail2> userRoleDetail2 = userMapperExt.getUserRoleDetail2(userId);
+		return userRoleDetail2;
+	}
+
+
+	/**
      * 创建用户
      *
      * @param user
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
     public int createUser(User user) {
 	    DebugUtils.transactionRequired("UserServiceImpl.createUser");
         //加密密码
         passwordHelper.encryptPassword(user);
-        return userMapper.insertSelective(user);
+        int count = userMapper.insertSelective(user);
+	    logger.info(user.toString());
+	    return count;
         /*UserDto userDto = new UserDto();
         try {
             BeanUtils.copyProperties(userDto, user);
@@ -103,6 +125,7 @@ public class UserServiceImpl implements UserService {
      * @param userId
      * @param newPassword
      */
+    @Override
     public void changePassword(Long userId, String newPassword) {
         //User user = userDao.findOne(userId);
         User user = userMapper.selectByPrimaryKey(userId);

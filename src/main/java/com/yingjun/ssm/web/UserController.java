@@ -3,11 +3,14 @@ package com.yingjun.ssm.web;
 import com.yingjun.ssm.dto.BaseResult;
 import com.yingjun.ssm.dto.UserDto;
 import com.yingjun.ssm.entity.User;
+import com.yingjun.ssm.entity.UserRoleDetail;
 import com.yingjun.ssm.enums.ResultEnum;
 import com.yingjun.ssm.exception.BizException;
 import com.yingjun.ssm.service.UserService;
 import com.yingjun.ssm.utils.UserUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +32,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -66,6 +70,16 @@ public class UserController {
 	    resp = new BaseResult<Integer>(true, new Integer(count));
 	    return resp;
     }
+
+	@ResponseBody
+	@RequestMapping(value = "/role_detail_onetomany", method = {RequestMethod.POST, RequestMethod.GET})
+	public BaseResult<List<UserRoleDetail>> role_detail(long userId) {
+		List<UserRoleDetail> userRoleDetail = userService.getUserRoleDetail(userId);
+		logger.info(userRoleDetail.toString());
+		BaseResult<List<UserRoleDetail>> resp = null;
+		resp = new BaseResult<List<UserRoleDetail>>(true, (userRoleDetail));
+		return resp;
+	}
 
     @RequiresPermissions("user:update")
     @RequestMapping(value = "/{id}/update", method = RequestMethod.GET)

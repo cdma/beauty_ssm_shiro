@@ -96,7 +96,7 @@ public class User {
      * @mbggenerated
      */
     public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+        this.username = username;
     }
 
     /**
@@ -120,7 +120,7 @@ public class User {
      * @mbggenerated
      */
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
 
     /**
@@ -144,7 +144,7 @@ public class User {
      * @mbggenerated
      */
     public void setState(String state) {
-        this.state = state == null ? null : state.trim();
+        this.state = state;
     }
 
     /**
@@ -192,6 +192,18 @@ public class User {
      * @mbggenerated
      */
     public void setSalt(String salt) {
-        this.salt = salt == null ? null : salt.trim();
+        this.salt = salt;
     }
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", username='" + username + '\'' +
+				", password='" + password + '\'' +
+				", state='" + state + '\'' +
+				", createTime=" + createTime +
+				", salt='" + salt + '\'' +
+				'}';
+	}
 }
