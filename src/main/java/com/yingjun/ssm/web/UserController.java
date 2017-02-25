@@ -4,6 +4,7 @@ import com.yingjun.ssm.dto.BaseResult;
 import com.yingjun.ssm.dto.UserDto;
 import com.yingjun.ssm.entity.User;
 import com.yingjun.ssm.entity.UserRoleDetail;
+import com.yingjun.ssm.entity.UserRoleDetail2;
 import com.yingjun.ssm.enums.ResultEnum;
 import com.yingjun.ssm.exception.BizException;
 import com.yingjun.ssm.service.UserService;
@@ -73,11 +74,21 @@ public class UserController {
 
 	@ResponseBody
 	@RequestMapping(value = "/role_detail_onetomany", method = {RequestMethod.POST, RequestMethod.GET})
-	public BaseResult<List<UserRoleDetail>> role_detail(long userId) {
+	public BaseResult<List<UserRoleDetail>> role_detail_onetomany(long userId) {
 		List<UserRoleDetail> userRoleDetail = userService.getUserRoleDetail(userId);
 		logger.info(userRoleDetail.toString());
 		BaseResult<List<UserRoleDetail>> resp = null;
 		resp = new BaseResult<List<UserRoleDetail>>(true, (userRoleDetail));
+		return resp;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/role_detail_manytomany", method = {RequestMethod.POST, RequestMethod.GET})
+	public BaseResult<List<UserRoleDetail2>> role_detail_manytomany(long userId) {
+		List<UserRoleDetail2> userRoleDetail = userService.getUserRoleDetail2(userId);
+		logger.info(userRoleDetail.toString());
+		BaseResult<List<UserRoleDetail2>> resp = null;
+		resp = new BaseResult<List<UserRoleDetail2>>(true, (userRoleDetail));
 		return resp;
 	}
 
